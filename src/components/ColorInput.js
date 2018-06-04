@@ -3,7 +3,7 @@ import styles from './App.scss';
 
 class ColorInput extends React.Component {
 
-  
+
 
   onInput(value) {
     console.log('value', value);
@@ -18,6 +18,11 @@ class ColorInput extends React.Component {
       <div>
         <input onInput={() => this.onInput(this)} list="browsers" name="browser" />
         <datalist id="browsers">
+        {
+          // colors.map(color => (
+          //     <option label={color.name} value={color.hex}/>
+          // ))
+        }
           <option value="Internet Explorer"/>
           <option value="Firefox" />
           <option value="Chrome" />

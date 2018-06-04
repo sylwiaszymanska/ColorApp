@@ -1,6 +1,10 @@
 import { combineReducers } from 'redux';
+import colorsReducer from './colorsReducer';
 
-export default combineReducers({
-  // todos,
-  // visibilityFilter
-})
+
+const rootReducer =  combineReducers({
+  colors: colorsReducer,
+});
+
+
+export default rootReducer;

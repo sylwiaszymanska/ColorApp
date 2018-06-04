@@ -1,28 +1,25 @@
-import { colorsRequest } from './../index';
+// import { colorsRequest } from './../index';
+import dispatchPromiseAction from './dispatchPromiseAction';
 
-const dispatchPromiseAction = (dispatch, action, resolveActionType, rejectActionType, promise) => {
-  dispatch(action);
+import axios from 'axios';
 
-  return promise.then(
-    (result) => {
-      dispatch({ type: resolveActionType, result });
-      return result;
-    },
-    (reason) => {
-      dispatch({ type: rejectActionType, reason });
-      throw reason;
-    },
-  );
-};
-
-export default dispatchPromiseAction;
-
-export const startFetchingColors = () => dispatch => dispatchPromiseAction(
-  dispatch,
-  {
-    type: COLORS_FETCHING_STARTED,
+const colorsRequest = axios.create({
+  baseURL: 'http://www.mocky.io/v2/5a37a7403200000f10eb6a2d',
+  headers: {
+    'Content-Type': 'application/json',
   },
-  COLORS_FETCHING_SUCCEEDED,
-  COLORS_FETCHING_FAILED,
-  colorsRequest(),
+}).get('/').then(response => response.data);
+
+
+// console.log('colorsRequest', colorsRequest());
+
+export const startFetchingColors = () => dispatch =>
+  dispatchPromiseAction(
+    dispatch,
+    {
+        type: 'COLORS_FETCHING_STARTED',
+    },
+    'COLORS_FETCHING_SUCCEEDED',
+    'COLORS_FETCHING_FAILED',
+    colorsRequest
 );

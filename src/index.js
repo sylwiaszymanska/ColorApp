@@ -1,14 +1,15 @@
 import React from 'react';
-import { render } from 'react-dom';
-import { createStore } from 'redux';
+import ReactDOM from 'react-dom';
+// import { render } from 'react-dom';
+import { compose, createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
-import App from './components/App';
-import rootReducer from './reducers';
-// import './index.scss';
+import AppContainer from './components/AppContainer';
+import rootReducer from './reducers/index';
+import thunk from 'redux-thunk';
 
 import axios from 'axios';
 
-const store = createStore(rootReducer);
+
 
 
 export const colorsRequest = axios.create({
@@ -16,12 +17,22 @@ export const colorsRequest = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
-}).get('/').then(response => console.log('data', response.data));
+}).get('/').then(console.log('STH STH STH')).then(response => response.data);
 
 
-render(
+const store = createStore(rootReducer,
+  compose(
+    applyMiddleware(thunk),
+  ),
+);
+
+console.log("STORE", store);
+
+ReactDOM.render(
+  (
   <Provider store={store}>
-    <App />
-  </Provider>,
+    <AppContainer />
+  </Provider>
+),
   document.getElementById('root')
-)
+);
